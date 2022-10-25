@@ -4,6 +4,7 @@ import flixel.FlxG;
 import flixel.FlxSprite;
 import openfl.display.BitmapData;
 import sys.FileSystem;
+import openfl.utils.Assets;
 
 class HealthIcon extends FlxSprite
 {
@@ -14,21 +15,20 @@ class HealthIcon extends FlxSprite
 	public var shake:Float = 0;
 
 	public function changeCharacter(char:String){
-		
+
 		antialiasing = true;
 		if (TitleState.curDir != "assets"){
 			trace(char, TitleState.curDir + '/images/icon-' + char + '.png');
-			
-			if(FileSystem.exists(TitleState.curDir+'/images/icon-'+char+'.png')){
-			
-			loadGraphic(BitmapData.fromFile(TitleState.curDir+'/images/icon-'+char+'.png'), true, 150, 150);
+
+			if(Assets.exists(TitleState.curDir+'/images/icon-'+char+'.png')){
+
+			loadGraphic(BitmapData.fromAsset(TitleState.curDir+'/images/icon-'+char+'.png'), true, 150, 150);
 			animation.add(char, [0, 1], 0, false);
 			}else{
-				
 				loadGraphic(Paths.image('iconGrid'), true, 150, 150);
 				animation.add('face', [10, 11], 0, false);
 			}
-			
+
 		}else if (char == 'pinkie'){
 		loadGraphic(Paths.image('icons'), true, 150, 150);
 
