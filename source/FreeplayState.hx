@@ -15,6 +15,7 @@ import flixel.tweens.FlxTween;
 import flixel.util.FlxColor;
 import flixel.util.FlxTimer;
 import lime.utils.Assets;
+import openfl.utils.Assets as OpenFlAssets;
 import Options;
 import AttachedFlxText;
 import sys.FileSystem;
@@ -308,7 +309,7 @@ class FreeplayState extends MusicBeatState
 			curDifficulty = 0;
 			
 		var poop:String = Highscore.formatSong(songs[curSelected].songName.toLowerCase(), curDifficulty);
-		if (!FileSystem.exists(TitleState.curDir+'/data/'+songs[curSelected].songName.toLowerCase()+'/'+poop+'.json')){
+		if (!OpenFlAssets.exists(TitleState.curDir+'/data/'+songs[curSelected].songName.toLowerCase()+'/'+poop+'.json')){
 			curDifficulty = 1;
 		}
 		#if !switch
