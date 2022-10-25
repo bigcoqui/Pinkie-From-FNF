@@ -625,7 +625,7 @@ class Character extends FlxSprite
 			trace(curCharacter + ":" + path);
 
 			var gra:FlxGraphic;
-			var bmp = BitmapData.fromFile(path);
+			var bmp = BitmapData.fromAsset(path);
 			gra = FlxGraphic.fromBitmapData(bmp, false, char);
 			gra.persist = true;
 			charsBitmaps.set(char, gra);
