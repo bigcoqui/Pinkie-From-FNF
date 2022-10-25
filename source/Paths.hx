@@ -255,8 +255,6 @@ class Paths
 
 
 	static public function getTextFile(key:String,preload:Bool = false):String{
-		
-			
 			var path = "";
 			var pulllfromAssets:Bool = false;
 			var balls:Array<String> = [TitleState.curDir, "assets"];
@@ -271,7 +269,7 @@ class Paths
 					}
 				}
 			}
-			
+
 						trace(TitleState.curDir);
 						trace(pulllfromAssets);
 						var txt:String = '';
