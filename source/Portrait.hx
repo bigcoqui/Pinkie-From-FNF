@@ -7,12 +7,12 @@ import flixel.FlxSprite;
 import flixel.animation.FlxBaseAnimation;
 import flixel.graphics.frames.FlxAtlasFrames;
 import sys.io.File;
+import openfl.utils.Assets;
 
 using StringTools;
 
 class Portrait extends FlxSprite
 {
-
     private var refx:Float;
     private var refy:Float;
     private var shake:Float;
@@ -45,23 +45,16 @@ class Portrait extends FlxSprite
 
    public  function defineCharacter(_character){
 
-       // _character = characters.contains(_character) ? _character : "bf";
-
-      //  frames = Paths.getSparrowAtlas("portrait/" + _character, "dialogue");
-
         switch(_character){
-
            default:
-              //  addAnim("default", "noChar instance 1");
 				frames = Paths.getSparrowAtlas("portrait/" + _character, "shared");
-				
+
 				var filepath = "assets/shared/images/portrait/" + _character + "_portrait.txt";
-				
-				var rawdata:String = File.getContent(filepath);
+
+				var rawdata:String = Assets.getText(filepath);
 				var data = rawdata.split("\n");
 				for (i in data){
 					var thing = i.split(":");
-							//trace("DATA: " + thing);
 				var loop = true;
 					if (thing[3] != null) loop = thing[3] == 'true';
 					switch(thing[0]){
@@ -81,13 +74,7 @@ class Portrait extends FlxSprite
 					}
 				}
                 animation.play("default");
-				//name prefix/indices
-        
-
         }
-
-     
-
     }
 	
 	override public function update(elapsed:Float):Void 
@@ -95,11 +82,10 @@ class Portrait extends FlxSprite
 		super.update(elapsed);
 		offset.x = FlxG.random.float( -shake, shake);
 		offset.y = FlxG.random.float( -shake, shake);
-		
+
 		if (shake > 0) shake-= 0.4;
-		
 	}
-    
+
     public function addAnim(anim:String, prefix:String,loop=true){
         animation.addByPrefix(anim,prefix, 24, loop);
     }    
@@ -108,7 +94,6 @@ class Portrait extends FlxSprite
     }    
 
     public function playFrame(?_frame:String = "default"){
-
         visible = true;
 
         animation.play(_frame);
@@ -117,72 +102,54 @@ class Portrait extends FlxSprite
 
         x = refx;
         y = refy - height;
-
     }
 
     public function hide(){
-
         alphaTween.cancel();
         posTween.cancel();
         alpha = 1;
         visible = false;
-
     }
 
     public function effectFadeOut(?time:Float = 1){
-
         alphaTween.cancel();
         alpha = 1;
         alphaTween = FlxTween.tween(this, {alpha: 0}, time);
-
     }
 
     public function effectFadeIn(?time:Float = 1){
-
         alphaTween.cancel();
         alpha = 0;
         alphaTween = FlxTween.tween(this, {alpha: 1}, time);
-
     }
 
     public function effectExitStageLeft(?time:Float = 1){
-
         posTween.cancel();
         posTween = FlxTween.tween(this, {x: 0 - width}, time, {ease: FlxEase.circIn});
-
     }
 
     public function effectExitStageRight(?time:Float = 1){
-
         posTween.cancel();
         posTween = FlxTween.tween(this, {x: FlxG.width}, time, {ease: FlxEase.circIn});
-
     }
 
     public function effectFlipRight(){
-
         x = FlxG.width - refx - width;
         y = refy - height;
-
     }
 
     public function effectFlipDirection(){
-        
         flipX = true;
-
     }
 
     public function effectEnterStageLeft(?time:Float = 1){
-        
         posTween.cancel();
         var finalX = x;
         x = 0 - width;
         posTween = FlxTween.tween(this, {x: finalX}, time, {ease: FlxEase.circOut});
-
     }
 
     public function effectEnterStageRight(?time:Float = 1){
-        
         posTween.cancel();
         var finalX = x;
         x = FlxG.width;
@@ -190,7 +157,6 @@ class Portrait extends FlxSprite
     }
 
     public function effectToRight(?time:Float = 1){
-        
         posTween.cancel();
         var finalX = FlxG.width - refx - width;
         x = refx;
@@ -198,7 +164,6 @@ class Portrait extends FlxSprite
         posTween = FlxTween.tween(this, {x: finalX}, time, {ease: FlxEase.quintOut});
     }
     public function effectAddY(?Y:Float = 1){
-        
         posTween.cancel();
         var finalY = Y+FlxG.height - refy - height;
         x = refx;
@@ -206,7 +171,6 @@ class Portrait extends FlxSprite
         posTween = FlxTween.tween(this, {y: y + Y}, 0.3, {ease: FlxEase.quintOut});
     }
     public function effectAddX(?X:Float = 1){
-        
         posTween.cancel();
         var finalX = X+FlxG.width - refx - width;
         x = refx;
@@ -215,7 +179,6 @@ class Portrait extends FlxSprite
     }
 
     public function effectFromY(?Y:Float = 1){
-        
         posTween.cancel();
         var finalY = Y+FlxG.height - refy - height;
         x = refx;
@@ -223,7 +186,6 @@ class Portrait extends FlxSprite
         posTween = FlxTween.tween(this, {y: y + Y}, 0.3, {ease: FlxEase.quintOut,type:BACKWARD});
     }
     public function effectFromX(?X:Float = 1){
-        
         posTween.cancel();
         var finalX = X+FlxG.width - refx - width;
         x = refx;
@@ -232,7 +194,6 @@ class Portrait extends FlxSprite
     }
 
     public function effectToLeft(?time:Float = 1){
-        
         posTween.cancel();
         var finalX = refx;
         x = FlxG.width - refx - width;
@@ -240,9 +201,6 @@ class Portrait extends FlxSprite
         posTween = FlxTween.tween(this, {x: finalX}, time, {ease: FlxEase.quintOut});
     }
     public function effectShake(?time:Float = 1){
-        
        shake = time;
     }
-
-   
 }
