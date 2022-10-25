@@ -52,7 +52,6 @@ import haxe.Exception;
 import openfl.utils.Assets;
 import ModChart;
 #if windows
-
 import vm.lua.LuaVM;
 import vm.lua.Exception;
 import Sys;
@@ -64,7 +63,9 @@ import llua.LuaL;
 #end
 import sys.io.File;
 import animateatlas.AtlasFrameMaker;
+
 using StringTools;
+
 class PlayState extends MusicBeatState
 {
 	public static var currentPState:PlayState;
@@ -335,7 +336,7 @@ class PlayState extends MusicBeatState
 			//daVoicesopenfl.media.Sound.fromFile(Paths.music('freakyMenu'));
 		}
 
-		if (FileSystem.exists(Paths.json(SONG.song.toLowerCase() + '/sliders'))){
+		if (Assets.exists(Paths.json(SONG.song.toLowerCase() + '/sliders'))){
 			SONG.sliderVelocities = Song.loadFromJson('sliders', SONG.song.toLowerCase()).sliderVelocities;
 		}
 		grade = ScoreUtils.gradeArray[0] + " (FC)";
@@ -416,7 +417,7 @@ class PlayState extends MusicBeatState
 					
 					
 					
-					hasEndDialogue = FileSystem.exists(Paths.txt(SONG.song.toLowerCase() + "/dialogueEnd" + (isPony?"-pony":"")));
+					hasEndDialogue = Assets.exists(Paths.txt(SONG.song.toLowerCase() + "/dialogueEnd" + (isPony?"-pony":"")));
 					if (currentOptions.lessBS) hasEndDialogue = false;
 					trace(Paths.txt(SONG.song.toLowerCase() + "/dialogueEnd" + (isPony?"-pony":"")));
 				} catch(e){
@@ -2116,35 +2117,21 @@ class PlayState extends MusicBeatState
 					}
 
 				default:
-					
-						
+
 			var path = "";
 			var balls:Array<String> = [TitleState.curDir, "assets"];
 			var stopLookin = false;
 			for (i in balls){
 				if(!stopLookin){
-					if (FileSystem.exists(i + "/shared/images/"+SONG.strumskin+".xml")){
+					if (Assets.exists(i + "/shared/images/"+SONG.strumskin+".xml")){
 						path = i + "/shared/images/"+SONG.strumskin+".xml";
 						stopLookin = true;
 						break;
 					}
 				}
 			}
-			
-			
-			
-			
-			
-				babyArrow.frames = FlxAtlasFrames.fromSparrow(Paths.getbmp(SONG.strumskin), File.getContent(path));//Paths.getSparrowAtlas('NOTE_assets');
 
-				
-				
-					
-					
-					
-					
-					
-					
+				babyArrow.frames = FlxAtlasFrames.fromSparrow(Paths.getbmp(SONG.strumskin), Assets.getText(path));
 
 					babyArrow.antialiasing = true;
 					babyArrow.setGraphicSize(Std.int(babyArrow.width * SONG.notescale));
