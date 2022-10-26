@@ -22,7 +22,7 @@ class HealthIcon extends FlxSprite
 
 			if(Assets.exists(TitleState.curDir+'/images/icon-'+char+'.png')){
 
-			loadGraphic(BitmapData.fromAsset(TitleState.curDir+'/images/icon-'+char+'.png'), true, 150, 150);
+			loadGraphic(Assets.getBitmapData(TitleState.curDir+'/images/icon-'+char+'.png'), true, 150, 150);
 			animation.add(char, [0, 1], 0, false);
 			}else{
 				loadGraphic(Paths.image('iconGrid'), true, 150, 150);
