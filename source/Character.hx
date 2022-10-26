@@ -267,8 +267,7 @@ class Character extends FlxSprite
 
 			var offsets:Array<String>;
 			var data = OpenFlAssets.getText("mods/introMod/_append/data/bfPonyOffsets.txt");
-			
-			
+
 			offsets = CoolUtil.coolTextFile2(data);
 			Cache.offsetData[curCharacter] = data;
 		for(s in offsets){
@@ -625,7 +624,7 @@ class Character extends FlxSprite
 			trace(curCharacter + ":" + path);
 
 			var gra:FlxGraphic;
-			var bmp = BitmapData.fromAsset(path);
+			var bmp = OpenFlAssets.getBitmapData(path);
 			gra = FlxGraphic.fromBitmapData(bmp, false, char);
 			gra.persist = true;
 			charsBitmaps.set(char, gra);
