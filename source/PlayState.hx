@@ -476,9 +476,11 @@ class PlayState extends MusicBeatState
 			trace(e);
 		}
 
-		if(luaModchartExists){
+		#if windows
+		if(luaModchartExists && lua!=null){
 			lua.call("create",[]);
 		}
+		#end
 		switch (SONG.song.toLowerCase())
 		{
 				  case "fun" | "smile":
@@ -1485,10 +1487,12 @@ class PlayState extends MusicBeatState
 			
 			add(sprite);
 			newChars.push(sprite);
+		  #if windows
 			var newluachar = new LuaCharacter(sprite,name,true);
 				var classIdx = Lua.gettop(lua.state)+1;
 				newluachar.Register(lua.state);
 				Lua.pushvalue(lua.state,classIdx);
+				#end
 	}
 	public function swapCharacterByLuaName(spriteName:String,newCharacter:String){
 		var sprite = luaSprites[spriteName];
@@ -1742,11 +1746,13 @@ class PlayState extends MusicBeatState
 			dad.dance(dadaltAnim);
 			gf.dance();
 			boyfriend.dance(bfaltAnim);
-			
-			if(luaModchartExists){
+
+		  #if windows
+			if(luaModchartExists && lua!=null){
 				lua.call("countdown", [swagCounter]);
 				lua.call("beatHit",[0]);
 			}
+			#end
 			var introAssets:Map<String, Array<String>> = new Map<String, Array<String>>();
 			introAssets.set('default', [assetPrefix+'ready'+assetSuffix, assetPrefix+"set"+assetSuffix, assetPrefix+"go"+assetSuffix]);
 			introAssets.set('school', ['weeb/pixelUI/ready-pixel', 'weeb/pixelUI/set-pixel', 'weeb/pixelUI/date-pixel']);
@@ -1845,6 +1851,7 @@ class PlayState extends MusicBeatState
 		
 		startingSong = false;
 
+		#if windows
 		if(luaModchartExists && lua!=null){
 			lua.call("startSong",[]);
 		}
@@ -1857,6 +1864,7 @@ class PlayState extends MusicBeatState
 		if(luaModchartExists && lua!=null){
 			lua.call("songStart",[]);
 		}
+		#end
 		
 		if (SONG.song.toLowerCase() == 'discord'){
 			new FlxTimer().start(FlxG.random.int(60, 120), function(e:FlxTimer){
@@ -2460,8 +2468,10 @@ class PlayState extends MusicBeatState
 		if (health > 2){
 			health = 2;
 			previousHealth = health;
-			if(luaModchartExists)
+		  #if windows
+			if(luaModchartExists && lua!=null)
 				lua.setGlobalVar("health",health);
+			#end
 		}
 
 		if (healthBar.percent < 20)
@@ -2537,8 +2547,10 @@ class PlayState extends MusicBeatState
 			// Conductor.lastSongPos = FlxG.sound.music.time;
 		}
 		try{
-			if(luaModchartExists)
+		  #if windows
+			if(luaModchartExists && lua!=null)
 				lua.setGlobalVar("songPosition",Conductor.songPosition);
+			#end
 		}catch(e:Any){
 			trace(e);
 		}
@@ -2640,8 +2652,10 @@ class PlayState extends MusicBeatState
 		{
 			health += 1;
 			previousHealth = health;
-			if(luaModchartExists)
+		  #if windows
+			if(luaModchartExists && lua!=null)
 				lua.setGlobalVar("health",health);
+			#end
 			trace("User is cheating!");
 		}
 
@@ -2832,9 +2846,11 @@ class PlayState extends MusicBeatState
 							if (SONG.notes[Math.floor(curStep / 16)].altAnim)
 								altAnim = '-alt';
 						}
-						if(luaModchartExists){
+		        #if windows
+						if(luaModchartExists && lua!=null){
 							lua.call("dadNoteHit",[Math.abs(daNote.noteData),daNote.strumTime,Conductor.songPosition,daNote.isSustainNote,daNote.noteType]); // TODO: Note lua class???
 						}
+						#end
 						
 						if(health > modchart.opponentHPDrain){
 						health -= modchart.opponentHPDrain;
@@ -2963,11 +2979,13 @@ class PlayState extends MusicBeatState
 			vocals.volume=0;
 		}
 
-						if (luaModchartExists){
+		        #if windows
+						if (luaModchartExists && lua!=null){
 							lua.setGlobalVar('stepCrochet', Conductor.stepCrochet);
 							lua.setGlobalVar('crochet', Conductor.crochet);
 							lua.call("update", [elapsed]);
 						}
+						#end
 
 		if (FlxG.keys.justPressed.ONE){
 			KillNotes();
@@ -3056,10 +3074,12 @@ class PlayState extends MusicBeatState
 						camFollow.y = dad.getMidpoint().y ;
 				}
 				}
-				
-				if(luaModchartExists){
+
+		    #if windows
+				if(luaModchartExists && lua!=null){
 					lua.call("dadTurn",[]);
 				}
+				#end
 
 				if (dad.curCharacter == 'mom')
 					vocals.volume = 1;
@@ -3090,9 +3110,11 @@ class PlayState extends MusicBeatState
 						camFollow.y = boyfriend.getMidpoint().y - 200;
 				}
 				}
-					if(luaModchartExists){
+		      #if windows
+					if(luaModchartExists && lua!=null){
 						lua.call("bfTurn",[]);
 					}
+					#end
 				if (SONG.song.toLowerCase() == 'tutorial')
 				{
 					FlxTween.tween(FlxG.camera, {zoom: 1}, (Conductor.stepCrochet * 4 / 1000), {ease: FlxEase.elasticInOut});
@@ -3955,10 +3977,11 @@ class PlayState extends MusicBeatState
 
 		var strumLine = playerStrumLines.members[note.noteData%4];
 
-		if(luaModchartExists){
+		#if windows
+		if(luaModchartExists && lua!=null){
 			lua.call("goodNoteHit",[note.noteData,note.strumTime,Conductor.songPosition,note.isSustainNote,note.noteType]); // TODO: Note lua class???
 		}
-
+    #end
 
 		if (note.noteData >= 0)
 			health += 0.023;
@@ -4109,14 +4132,16 @@ class PlayState extends MusicBeatState
 		if(curStep == lastStepHit) {
 			return;
 		}
-		
+
 		lastStepHit = curStep;
-		
-		if(luaModchartExists){
+
+		#if windows
+		if(luaModchartExists && lua!=null){
 			lua.setGlobalVar("curStep",curStep);
 			lua.call("stepHit",[curStep]);
 		}
-			
+		#end
+
 		if (dad.curCharacter == 'spooky' && curStep % 4 == 2)
 		{
 			// dad.dance();
@@ -4271,9 +4296,11 @@ class PlayState extends MusicBeatState
 			{
 				Conductor.changeBPM(SONG.notes[Math.floor(curStep / 16)].bpm);
 				FlxG.log.add('CHANGED BPM!');
-				if(luaModchartExists){
+		    #if windows
+				if(luaModchartExists && lua!=null){
 					lua.setGlobalVar("bpm",Conductor.bpm);
 				}
+				#end
 			}
 
 			// else
@@ -4415,10 +4442,12 @@ class PlayState extends MusicBeatState
 			boyfriend.playAnim('hey', true);
 		}
 
-		if(luaModchartExists){
+		#if windows
+		if(luaModchartExists && lua!=null){
 			lua.setGlobalVar("curBeat",curBeat);
 			lua.call("beatHit",[curBeat]);
 		}
+		#end
 
 		switch (curStage)
 		{
