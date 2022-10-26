@@ -51,7 +51,6 @@ import Shaders;
 import haxe.Exception;
 import openfl.utils.Assets;
 import ModChart;
-#if windows
 import vm.lua.LuaVM;
 import vm.lua.Exception;
 import Sys;
@@ -60,7 +59,6 @@ import llua.Convert;
 import llua.Lua;
 import llua.State;
 import llua.LuaL;
-#end
 import sys.io.File;
 import animateatlas.AtlasFrameMaker;
 
@@ -202,7 +200,7 @@ class PlayState extends MusicBeatState
 	];
 	var lua:LuaVM;
 
-				var lighting:FlxSprite;
+	var lighting:FlxSprite;
 	var dialogue:Array<String> = ['blah blah blah', 'coolswag'];
 
 	var halloweenBG:FlxSprite;
